@@ -19,17 +19,43 @@ const { NotImplementedError } = require('../extensions/index.js');
  * reverseMachine.decrypt('AEIHQX SX DLLU!', 'alphonse') => '!NWAD TA KCATTA'
  * 
  */
+
 class VigenereCipheringMachine {
-  encrypt() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  constructor(reverse=true) {
+    this.reverse = !reverse
   }
-  decrypt() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  encrypt(str, code) {
+    if (!str || !code) throw new Error('Incorrect arguments!')
+    let newstr = '';
+    str = str.toUpperCase();
+    code = code.toUpperCase();
+    let adapter = 0
+    for (let i = 0; i < str.length; i++) {
+      if (str.charCodeAt(i) >= 65 && str.charCodeAt(i) < 91)
+        newstr += String.fromCharCode((str.charCodeAt(i) + code.charCodeAt((i-adapter) % code.length) - 65 * 2) % 26 + 65)
+      else { newstr += str[i]; adapter++}
+    }
+    return this.reverse ? newstr.split("").reverse().join("") : newstr;
+  }
+  decrypt(str, code) {
+    if (!str || !code) throw new Error('Incorrect arguments!')
+    let newstr = '';
+    str = str.toUpperCase();
+    code = code.toUpperCase();
+    let adapter = 0
+    for (let i = 0; i < str.length; i++) {
+      if (str.charCodeAt(i) >= 65 && str.charCodeAt(i) < 91) {
+        let c = str.charCodeAt(i) - code.charCodeAt((i - adapter) % code.length)
+        newstr += String.fromCharCode((c >= 0 ? c: 26 + c) + 65)
+      }
+      else { newstr += str[i]; adapter++ }
+    }
+    return this.reverse ? newstr.split("").reverse().join("") : newstr;
   }
 }
-
+const reverseMachine = new VigenereCipheringMachine(false);
+//reverseMachine.encrypt('attack at dawn!', 'alphonse')// => '!ULLD XS XQHIEA'
+console.log(reverseMachine.decrypt('AEIHQX SX DLLU!', 'alphonse'))// => '!NWAD TA KCATTA'
 module.exports = {
   VigenereCipheringMachine
 };

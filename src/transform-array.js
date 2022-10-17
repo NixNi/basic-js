@@ -13,9 +13,32 @@ const { NotImplementedError } = require('../extensions/index.js');
  * transform([1, 2, 3, '--discard-prev', 4, 5]) => [1, 2, 4, 5]
  * 
  */
-function transform(/* arr */) {
-  throw new NotImplementedError('Not implemented');
-  // remove line with error and write your code here
+function transform(arr) {
+  if (!(arr instanceof Array)) throw new Error("'arr' parameter must be an instance of the Array!")
+  let newArr = [];
+  for (let i = 0; i < arr.length; i++) {
+    if ('--discard-next' === arr[i]) {
+      i++
+      continue
+    }
+    if ('--discard-prev' === arr[i]) {
+      if(i>0 && arr[i-2] !== '--discard-next')
+      newArr.pop()
+      continue
+    }
+    if ('--double-next' === arr[i]) {
+      if (i < arr.length - 1)
+      newArr.push(arr[i + 1])
+      continue
+    }
+    if ('--double-prev' === arr[i] ) {
+      if (i > 0 && arr[i - 2] !== '--discard-next')
+      newArr.push(arr[i - 1])
+      continue
+    }
+    newArr.push(arr[i])
+  }
+  return newArr
 }
 
 module.exports = {
