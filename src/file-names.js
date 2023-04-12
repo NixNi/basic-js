@@ -16,16 +16,22 @@ const { NotImplementedError } = require('../extensions/index.js');
  *
  */
 function renameFiles(names) {
-  //let newnames = [names[0]]
-  // for (let i = 1; i < names.length; i++) {
-  //   for (let j = 0; j < i; j++) {
-  //     if (names[i] === names[j])
-  //       if(names[i].match(/[(d)]/ + $))names[i] = names[i] + '(1)'
-        
-  //   }
-  // }
-  // return names
-  throw new NotImplementedError('Not implemented');
+
+  let set = new Set;
+  for (let name of names) if (!set.has(name)) {
+    set.add(name);
+  } else {
+    let i = 1;
+    while (true) {
+      if (!set.has(name + `(${i})`)) {
+        set.add(name + `(${i})`);
+        break;
+      }
+      i++;
+    }
+  }
+
+  return Array.from(set);
 }
 module.exports = {
   renameFiles

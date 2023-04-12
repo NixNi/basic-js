@@ -21,11 +21,11 @@ function repeater(str, options) {
     addition = '',
     additionRepeatTimes = 1,
     additionSeparator = '|' } = options;
-  let newaddition = (`${addition}${additionSeparator}`).repeat(additionRepeatTimes)
-  newaddition = newaddition.slice(0, newaddition.length - additionSeparator.length)
-  let newstr = (`${str}${newaddition}${separator}`).repeat(repeatTimes)
-  newstr = newstr.substring(0, newstr.length - separator.length)
-  return newstr;
+  let newAddition = (`${addition}${additionSeparator}`).repeat(additionRepeatTimes)
+  newAddition = newAddition.slice(0, newAddition.length - additionSeparator.length)
+  let newStr = (`${str}${newAddition}${separator}`).repeat(repeatTimes)
+  newStr = newStr.substring(0, newStr.length - separator.length)
+  return newStr;
 }
 
 module.exports = {
